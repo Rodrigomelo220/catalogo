@@ -1,205 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Catálogo Online</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <title>Catálogo Elegante</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
   <style>
     body {
-      background-color: #f8f9fa;
+      background-color: #f0f2f5;
       font-family: 'Segoe UI', sans-serif;
     }
-
     header {
       text-align: center;
-      padding: 20px;
+      padding: 2rem 1rem;
     }
-
-    .catalogo {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 20px;
-    }
-
     .produto {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      position: relative;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      padding: 1.2rem;
+      text-align: center;
     }
-
-    .produto h5 {
-      margin-bottom: 0.5rem;
-    }
-
     .produto .preco {
-      font-weight: bold;
       color: #28a745;
+      font-weight: bold;
       margin-bottom: 0.5rem;
     }
-
-    .produto .ingredientes {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.5rem;
-    }
-
     .produto .obs {
       font-size: 0.85rem;
-      margin-top: 0.5rem;
+      color: #666;
     }
-
     .btn-add {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.3s ease;
+      width: 100%;
+      transition: 0.3s;
     }
-
     .btn-add.adicionado {
       background-color: #198754 !important;
-      color: #fff;
+      color: white;
     }
-
-    .btn-add.adicionado span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
     #carrinho-btn {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background-color: #0d6efd;
-      color: #fff;
+      color: white;
       border-radius: 50%;
       width: 60px;
       height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       font-size: 1.5rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-      transition: transform 0.3s;
-    }
-
-    #carrinho-btn.ativo {
-      animation: pulse 0.4s;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.2);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    #modalResumo .modal-footer {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+      z-index: 1000;
     }
   </style>
 </head>
-
 <body>
   <header>
-    <img src="logo.png" alt="Logo" style="height: 80px;">
-    <h3 class="mt-3">Bem-vindo!</h3>
-    <div class="mt-3">
-      <input type="text" id="nomeCliente" class="form-control" placeholder="Digite seu nome para continuar" required>
-    </div>
+    <h1>Faça seu pedido</h1>
+    <input id="nomeCliente" class="form-control w-50 mx-auto" placeholder="Digite seu nome" />
+    <button class="btn btn-primary mt-3" id="btnEntrar">Entrar</button>
   </header>
 
-  <div id="catalogo" class="catalogo d-none">
-    <div class="produto" data-nome="X-Burger" data-preco="15">
-      <h5>X-Burger</h5>
-      <div class="preco">R$ 15,00</div>
-      <div class="ingredientes">Pão, Hambúrguer, Queijo</div>
-      <input type="text" class="form-control obs" placeholder="Observações (ex: sem queijo)">
-      <button class="btn btn-outline-primary btn-add mt-2">Adicionar Pedido</button>
-    </div>
-    <div class="produto" data-nome="X-Salada" data-preco="17">
-      <h5>X-Salada</h5>
-      <div class="preco">R$ 17,00</div>
-      <div class="ingredientes">Pão, Hambúrguer, Queijo, Alface, Tomate</div>
-      <input type="text" class="form-control obs" placeholder="Observações (ex: sem tomate)">
-      <button class="btn btn-outline-primary btn-add mt-2">Adicionar Pedido</button>
-    </div>
-  </div>
-
-  <button id="carrinho-btn" class="d-none">
-    <i class="bi bi-cart3"></i>
-    <span id="contador-carrinho" class="ms-1">0</span>
-  </button>
-
-  <!-- Modal Resumo -->
-  <div class="modal fade" id="modalResumo" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Resumo do Pedido</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="container d-none" id="catalogo">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="produto" data-nome="X-Burger" data-preco="15">
+          <h5>X-Burger</h5>
+          <div class="preco">R$ 15,00</div>
+          <div class="text-muted">Pão, hambúrguer, queijo</div>
+          <input class="form-control mt-2 obs" placeholder="Observações">
+          <button class="btn btn-outline-primary btn-add mt-3">Adicionar Pedido</button>
         </div>
-        <div class="modal-body">
-          <div id="resumo-pedido"></div>
-          <div id="form-itai" class="mt-3 d-none">
-            <input type="text" class="form-control mb-2" id="enderecoCliente" placeholder="Endereço">
-            <input type="text" class="form-control mb-2" id="numeroCliente" placeholder="Número da casa">
-          </div>
-          <div id="confirma-local">
-            <label>Você está em Itaí-SP?</label>
-            <select id="select-local" class="form-select">
-              <option value="">Selecione</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
-          <button class="btn btn-danger" id="btn-limpar">Limpar Carrinho</button>
-          <button class="btn btn-success" id="btn-enviar">Enviar Pedido</button>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="produto" data-nome="X-Salada" data-preco="17">
+          <h5>X-Salada</h5>
+          <div class="preco">R$ 17,00</div>
+          <div class="text-muted">Pão, hambúrguer, queijo, alface, tomate</div>
+          <input class="form-control mt-2 obs" placeholder="Observações">
+          <button class="btn btn-outline-primary btn-add mt-3">Adicionar Pedido</button>
         </div>
       </div>
     </div>
   </div>
 
+  <button id="carrinho-btn" class="d-none">
+    <i class="bi bi-cart-fill"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const nomeClienteInput = document.getElementById("nomeCliente");
+    const btnEntrar = document.getElementById("btnEntrar");
+    const nomeInput = document.getElementById("nomeCliente");
     const catalogo = document.getElementById("catalogo");
     const carrinhoBtn = document.getElementById("carrinho-btn");
-    const contadorCarrinho = document.getElementById("contador-carrinho");
-    const btnEnviar = document.getElementById("btn-enviar");
-    const btnCancelar = document.getElementById("btn-cancelar");
-    const btnLimpar = document.getElementById("btn-limpar");
-    const resumoPedido = document.getElementById("resumo-pedido");
-    let modalResumo;
-
-    document.addEventListener("DOMContentLoaded", () => {
-      modalResumo = new bootstrap.Modal(document.getElementById("modalResumo"));
-    });
 
     let carrinho = [];
 
-    nomeClienteInput.addEventListener("change", () => {
-      if (nomeClienteInput.value.trim()) {
+    btnEntrar.addEventListener("click", () => {
+      if (nomeInput.value.trim()) {
         catalogo.classList.remove("d-none");
         carrinhoBtn.classList.remove("d-none");
+        document.querySelector("header").classList.add("d-none");
       }
     });
 
@@ -209,87 +114,31 @@
         const nome = card.dataset.nome;
         const preco = parseFloat(card.dataset.preco);
         const obs = card.querySelector(".obs").value.trim();
-        const index = carrinho.findIndex(item => item.nome === nome);
 
-        if (index === -1) {
-          carrinho.push({ nome, preco, qtd: 1, obs });
+        const existente = carrinho.find(i => i.nome === nome);
+        if (existente) {
+          existente.qtd += 1;
+          existente.obs = obs;
         } else {
-          carrinho[index].qtd++;
+          carrinho.push({ nome, preco, qtd: 1, obs });
         }
 
         this.classList.add("adicionado");
-        this.innerHTML = `<span><button class='btn btn-light btn-sm' onclick='alterarQtd("${nome}", -1)'>-</button> ${carrinho.find(i => i.nome === nome).qtd} <button class='btn btn-light btn-sm' onclick='alterarQtd("${nome}", 1)'>+</button></span> Adicionado`;
-
-        atualizarCarrinho();
-        carrinhoBtn.classList.add("ativo");
-        setTimeout(() => carrinhoBtn.classList.remove("ativo"), 400);
+        this.textContent = "Adicionado ✓";
       });
     });
-
-    function alterarQtd(nome, delta) {
-      const item = carrinho.find(i => i.nome === nome);
-      if (!item) return;
-      item.qtd += delta;
-      if (item.qtd <= 0) carrinho = carrinho.filter(i => i.nome !== nome);
-      atualizarCarrinho();
-    }
-
-    function atualizarCarrinho() {
-      contadorCarrinho.textContent = carrinho.reduce((s, i) => s + i.qtd, 0);
-    }
 
     carrinhoBtn.addEventListener("click", () => {
-      document.getElementById("form-itai").classList.add("d-none");
-      document.getElementById("select-local").value = "";
-      let html = `<p><strong>Cliente:</strong> ${nomeClienteInput.value}</p><ul>`;
       let total = 0;
-      carrinho.forEach(item => {
-        html += `<li>${item.qtd}x ${item.nome}${item.obs ? ` (${item.obs})` : ""} - R$ ${(item.preco * item.qtd).toFixed(2)}</li>`;
-        total += item.preco * item.qtd;
+      let texto = `Pedido de: ${nomeInput.value}\n\n`;
+      carrinho.forEach(i => {
+        texto += `${i.qtd}x ${i.nome}${i.obs ? ` (${i.obs})` : ""} - R$ ${(i.preco * i.qtd).toFixed(2)}\n`;
+        total += i.qtd * i.preco;
       });
-      html += `</ul><p><strong>Total:</strong> R$ ${total.toFixed(2)}</p>`;
-      resumoPedido.innerHTML = html;
-      modalResumo.show();
-    });
-
-    document.getElementById("select-local").addEventListener("change", function () {
-      if (this.value === "sim") {
-        document.getElementById("form-itai").classList.remove("d-none");
-      } else {
-        document.getElementById("form-itai").classList.add("d-none");
-      }
-    });
-
-    btnCancelar.addEventListener("click", () => modalResumo.hide());
-    btnLimpar.addEventListener("click", () => {
-      carrinho = [];
-      atualizarCarrinho();
-      modalResumo.hide();
-      location.reload();
-    });
-
-    btnEnviar.addEventListener("click", () => {
-      const nome = nomeClienteInput.value.trim();
-      const endereco = document.getElementById("enderecoCliente").value.trim();
-      const numero = document.getElementById("numeroCliente").value.trim();
-
-      if (!nome || carrinho.length === 0) return;
-      let total = 0;
-      let mensagem = `Pedido de: ${nome}\n\n`;
-      carrinho.forEach(item => {
-        mensagem += `- ${item.qtd}x ${item.nome}${item.obs ? ` (${item.obs})` : ""} - R$ ${(item.preco * item.qtd).toFixed(2)}\n`;
-        total += item.preco * item.qtd;
-      });
-      mensagem += `\nTotal: R$ ${total.toFixed(2)}`;
-      if (document.getElementById("select-local").value === "sim") {
-        mensagem += `\nEndereço: ${endereco}, Nº ${numero}`;
-      }
-      const telefone = "5514996152442";
-      const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+      texto += `\nTotal: R$ ${total.toFixed(2)}`;
+      const url = "https://wa.me/5514996152442?text=" + encodeURIComponent(texto);
       window.open(url, "_blank");
     });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
